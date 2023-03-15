@@ -2096,6 +2096,16 @@ ul {
       position: relative;
       top: 15px;
     }
+
+    .counter-one__count-box-member h3 {
+        font-size: 60px;
+        color: #037ef3;
+        font-weight: 900;
+        font-family: var(--temp-font-two) !important;
+        letter-spacing: -0.04em;
+        line-height: 60px !important;
+      }
+
     .counter-one__letter-ogta {
         font-size: 60px;
         color: #0cb9c1;
@@ -2106,7 +2116,16 @@ ul {
         position: relative;
         top: 15px;
       }
-
+      .counter-one__letter-member {
+        font-size: 60px;
+        color: #037ef3;
+        font-weight: 900;
+        font-family: var(--temp-font-two);
+        letter-spacing: -0.04em;
+        line-height: 60px;
+        position: relative;
+        top: 15px;
+      }
       .counter-one__letter-ogte {
         font-size: 60px;
         color: #f48924;

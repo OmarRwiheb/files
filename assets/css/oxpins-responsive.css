@@ -1244,6 +1244,7 @@
     .events-one__title{
         margin-left: -10px;
     }
+
 }
 
 
@@ -1587,7 +1588,10 @@
         margin-top: 40px;
         margin-bottom: 10px;
     }
-    
+    .sliding-text-container{
+        margin-top: -241px;
+        margin-bottom: 44px;
+    }
 }
 
 
