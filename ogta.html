@@ -3420,7 +3420,7 @@
                 style="background-image: url(assets/images/shapes/contact-three-shape.png);"></div>
             <div class="container">
                 <div class="contact-page__form-box">
-                    <form action="assets/inc/sendemail.php" class="contact-page__form contact-form-validated"
+                    <form id="ge_signup_form" ="validate_form()" class="contact-page__form contact-form-validated"
                         novalidate="novalidate">
                         <div class="row">
                             <div class="col-xl-6">
@@ -3508,7 +3508,7 @@
                                         <option value="Can not See any benefit from going on exchange">Can not See any benefit from going on exchange</option>
                                         <option value="I am not certain about AIESEC">I am not certain about AIESEC</option>
                                         <option value="I didnt find a relevant opportunity">I didnt find a relevant opportunity</option>
-                                        <!-- <option value="I don't have enough experience">I don't have enough experience</option> -->
+                                        <option value="I don't have enough experience">I don't have enough experience</option>
                                         <option value="Can't travel beacause of COVID-19">Can't travel beacause of COVID-19</option>
                                     </select>
                                 </div>
@@ -3516,12 +3516,17 @@
                             <div class="col-xl-6">
                                 <div class="contact-form__input-box">
                                     <div class="contact-form__btn-box">
-                                        <button type="submit" class="thm-btn contact-form__btn">Sign up!</button>
+                                        <button type="submit" class="thm-btn contact-form__btn" id="signupbutton" onclick="validate_form();">Sign up!</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
+                    <div id="form_msg" style="display: none; border: 4px;">
+                        <span id="sign_up_error_msg" style="color: red;"></span>
+                        <div class="alert__close" onclick="document.getElementById('form_msg').style.display = 'none';">
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -3811,6 +3816,676 @@
 
     <!-- template js -->
     <script src="assets/js/oxpins.js"></script>
+    <script>
+        var endpoint = "https://alpha.aiesec.org.eg"
+        function listCookies() {
+        var theCookies = document.cookie.split(';');
+        var aString = '';
+        for (var i = 1 ; i <= theCookies.length; i++) {
+            aString += i + ' ' + theCookies[i-1] + "\n";
+        }
+        return aString;
+    }
+        
+        function getCookie(cname) {
+          var name = cname + "=";
+          var decodedCookie = decodeURIComponent(document.cookie);
+          var ca = decodedCookie.split(';');
+          for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+              c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+              return c.substring(name.length, c.length);
+            }
+          }
+          return "";
+        }
+
+        function setCookie(cname, cvalue, exdays) {
+          var d = new Date();
+          d.setTime(d.getTime() + (exdays*24*60*60*1000));
+          var expires = "expires="+ d.toUTCString();
+          document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }  
+        
+        
+        
+        function validate_login(data){
+            //console.log(data);
+            if (data['data']['expaLogin'] != null)
+            {
+                setCookie("alpha_token", data['data']['expaLogin']['token'], 1);
+                location.reload();
+            }
+            else
+            {
+                $('#modal_login_content *').prop("disabled", false);
+                document.getElementById('login_error_msg').innerHTML = "Wrong Username or Password!"
+            }
+        }
+
+        function logout(){
+            document.cookie = "alpha_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            location.reload();
+        }
+
+
+        function login(user_code) {
+            console.log(user_code);
+            var query = `mutation Mymutation($codeToken: String!) {
+
+                  expaLogin(codeToken:$codeToken, type:"OGX")
+                  {
+                       user
+                    {
+                      profile
+                      {
+                        firstName
+                      }
+                    }
+                    token
+                  }
+                }`;
+
+            var variables = { codeToken: user_code.toString() },
+
+              data_ = fetch(endpoint + '/graphql', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                  query,
+                  variables,
+                })
+              })
+                .then(r => r.json())
+                .then(data => validate_login(data));
+          }
+          function check_auth() {
+            //console.log(windowObjectReference.location.href);
+            if (windowObjectReference.location.href.indexOf("code=") > -1) {
+              console.log(windowObjectReference.location.href)
+              var auth_code = windowObjectReference.location.href.split("?code=")[1]
+              windowObjectReference.close();
+              login(auth_code);
+            }
+            if (windowObjectReference.closed) {
+              clearInterval(sensor);
+            }
+          }
+          var windowObjectReference = null;
+          var sensor = null;
+          function sign_in_btn() {
+            windowObjectReference = window.open(
+              "https://auth.aiesec.org/oauth/authorize?response_type=code&client_id=6a1dff3bc3c7fa6e1aea0b3d1e89683cfe1c9bf8517b82b26ecd0f34fa5c45db&redirect_uri=https%3A%2F%2Faiesec.org.eg%2F", "Authorization", "resizable,scrollbars,status"
+            );
+            sensor = setInterval(check_auth, 1000);
+          }	
+        function show_user_data(data){
+            document.getElementById('current_user').innerHTML = 'Hello, ' + data['data']['currentuser']['profile']['firstName'] + ', ' + '<a style="color: white;" href="#" onclick="logout();">Logout</a>';
+            
+            document.getElementById('signupbutton').setAttribute('disabled','disabled');
+            document.getElementById('sign_up_error_msg').innerHTML = 'Already Signed in.';
+            document.getElementById('form_msg').style.display = "block";
+
+        }
+        
+        function show_login_panel(){
+            document.getElementById("hotme").click();
+        }
+        
+        function validate_signup(data){
+            //console.log(data)
+            $('#ge_signup_form *').prop("disabled", false);
+            token = data['data']['ogxSignup']['token']
+            setCookie("alpha_token", token, 1);
+            document.getElementById('current_user').innerHTML = 'Hello, ' + data['data']['ogxSignup']['applicant']['firstName'] + ', ' + '<a href="#" onclick="logout();">Logout</a>';
+            window.location.href = '/thankyou_gt.html';
+            
+            // Show the user that he Applied! Congrats!
+        }
+        function signup_request(){
+
+            var email = document.getElementById('email_signup_field').value
+
+            if (email.includes(' ')){
+ 
+             email =  email.split(' ').join('');
+              }
+
+            var campus_options = document.getElementById('campus_options')
+            var campus = campus_options.options[campus_options.selectedIndex].value;
+            
+            var faculty_options = document.getElementById('faculty_options')
+            var faculty = faculty_options.options[faculty_options.selectedIndex].value;
+            
+            var referral_options = document.getElementById('referral_options')
+            var referral = referral_options.options[referral_options.selectedIndex].value;
+            
+            var gender_options = document.getElementById('gender_options')
+            var gender = gender_options.options[gender_options.selectedIndex].value;
+            
+            var reason_to_apply_options = document.getElementById('apply_reasons_options')
+            var reason_to_apply = reason_to_apply_options.options[reason_to_apply_options.selectedIndex].value;
+            
+            var reason_to_prevent_options = document.getElementById('prevent_reasons_options')
+            var reason_to_prevent = reason_to_prevent_options.options[reason_to_prevent_options.selectedIndex].value;
+            
+            var query = `mutation MyMutation($firstname: String!, $lastname: String!, $email: String!, $password: String!, $phone: String!, $campus: ID!, $faculty: ID!, $slot_id: Int!, $referral: ID!,$dob: Date!, $ogxBranch: Int!, $graduationYear: Int!, $gender: String!,$apply_reason: String!, $prevent_resaon: String!){
+ogxSignup(firstName:$firstname,lastName:$lastname,email:$email,password:$password,phone:$phone,campus:$campus,faculty:$faculty,referral:$referral,dob:$dob, slotId:$slot_id, ogxBranch:$ogxBranch,graduationYear:$graduationYear,  gender:$gender,reasonToApply:$apply_reason, reasonToPrevent:$prevent_resaon)
+              {
+                token
+                applicant
+                {
+                  firstName
+                  expaId
+                  dob
+                  committee
+                  {
+                    id
+                    name
+                    expaId
+                  }
+                  university
+                  {
+                    name
+                  }
+                  faculty
+                  {name}
+                  referral
+                  {
+                    name
+                  }
+
+                }
+              }
+            }`;
+                var variables = { firstname: document.getElementById('first_name_field').value,
+                                  lastname: document.getElementById('last_name_field').value,
+                                  email: email,
+                                  password: document.getElementById('password_signup_field').value,
+                                  phone: document.getElementById('phone_field').value,
+                                  campus: campus,
+                                  faculty: faculty,
+                                  referral: referral,
+                                  dob: document.getElementById('dob_field').value,
+                                  ogxBranch: 8,
+                                  graduationYear: document.getElementById('graduation_year_field').value,
+                                  gender: gender,
+                                  countryId: null,
+                                  opp_id: null,
+                                  slot_id: 1,
+                                  apply_reason:reason_to_apply,
+                                  prevent_resaon:reason_to_prevent,
+                                },
+                    
+
+                data_ = fetch(endpoint + '/graphql', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    query,
+                    variables,
+                  })
+                })
+                  .then(r => r.json())
+                  .then(data => validate_signup(data));
+        }
+        function validate_email(data){
+            //console.log(data)
+            result = data['data']['isEmailUnique']['unique']
+            if (result == true){
+                //document.getElementById('signup_prog').innerHTML = '<div class="progress-horizontal__progress" style="width: 40%;"></div>';
+                //document.getElementById('prog_label').innerHTML = 'Creating Account';
+                //document.getElementById('div_prog').style.display = 'block';
+                signup_request()
+                //alert('SIGNING YOUR ASS UP!')
+            }
+            else{
+                var msg = "The email is registered before, please sign in.";
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                //$("#ge_signup_form *").attr("disabled", "").off('click');
+                $('#ge_signup_form *').prop("disabled", false);
+            }
+        }
+        
+        function unique_email(email){
+            //document.getElementById('ge_signup_form').style.display = 'none';
+            $("#ge_signup_form *").attr("disabled", "disabled").off('click');
+            var query = `mutation mymutation($email: String!){
+              isEmailUnique(email:$email){
+                unique
+              }
+            }`;
+                var variables = { email: email},
+                    
+
+                data_ = fetch(endpoint + '/graphql', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    query,
+                    variables,
+                  })
+                })
+                  .then(r => r.json())
+                  .then(data => validate_email(data));
+            
+        }
+        function isNumeric(n) {
+          return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+        function validate_form(){
+            // Validate form inputs here first before calling !
+            document.getElementById('form_msg').style.display = "none";
+            var upperCase= new RegExp('[A-Z]');
+            var lowerCase= new RegExp('[a-z]');
+            var numbers = new RegExp('[0-9]');
+            var firstname = document.getElementById('first_name_field').value;
+            var lastname = document.getElementById('last_name_field').value;
+            var email = document.getElementById('email_signup_field').value;
+            var password = document.getElementById('password_signup_field').value;
+            var phone = document.getElementById('phone_field').value;         
+            var dob = document.getElementById('dob_field').value;
+            var graduation_year = document.getElementById('graduation_year_field').value;
+            var campus_options = document.getElementById('campus_options')
+            var campus = campus_options.options[campus_options.selectedIndex].value;
+            
+            var faculty_options = document.getElementById('faculty_options')
+            var faculty = faculty_options.options[faculty_options.selectedIndex].value;
+            
+            var referral_options = document.getElementById('referral_options')
+            var referral = referral_options.options[referral_options.selectedIndex].value;
+            
+            var gender_options = document.getElementById('gender_options')
+            var gender = gender_options.options[gender_options.selectedIndex].value;
+            if (firstname.length <= 0) {
+                var msg = "Please Enter Your First Name";
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+             }
+            if (lastname.length <= 0) {
+               var msg = "Please Enter Your Last Name";
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+             }
+            if (email.length < 4) {
+               var msg = "Please Enter a valid email.";
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+             }
+            // if (email.includes(' ')){
+            //     var msg = "Please Remove Spaces from your email!";
+            //     document.getElementById('sign_up_error_msg').innerHTML = msg;
+            //     document.getElementById('form_msg').style.display = "block";
+            //     return ;
+            // }
+            if (!email.includes('@') || !email.includes('.')){
+                var msg = "Please enter a valid email!";
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+            }
+            if (password.length <= 8) {
+               var msg = "Your password must be more than 8 characters";
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+             }
+            
+            var numeric = false;
+            var upperCase = false;
+            var lowerCase = false;
+            var i=0;
+            var character='';
+            var specials = ['"', '!', '"', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', "'\'", ']', '^', '_', '`', '{', '|', '}', '~' , '"']
+            while (i < password.length){
+                character = password.charAt(i);
+                if (character != ' '){
+                    if (isNumeric(character)){
+                    numeric = true;
+                    }
+                    else{
+                        if (!specials.includes(character)){
+                            if (character == character.toUpperCase()) {
+                                upperCase = true;
+                            }
+                            if (character == character.toLowerCase()){
+                                lowerCase = true;
+                            }
+                        }
+                    }
+                }
+                
+                i++;
+            }
+            if ( !numeric || !upperCase || !lowerCase ){
+                var msg = "Your password must contain a mixture of upper and lower case letters and at least one number";
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ; 
+            }
+            if (phone.length != 11) {
+                var msg = "Please enter a valid 11 digits phone number.";
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+             }
+            if (dob.length <= 6) {
+                var msg = "Please enter a valid date of birth.";
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+             }
+            if (calculate_age(new Date(document.getElementById('dob_field').value)) > 30 || calculate_age(new Date(document.getElementById('dob_field').value)) < 18 ){
+                var msg = "You need to be between the age of 18 and 30 to apply."
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+            }
+            if (graduation_year.length != 4) {
+                var msg = "Please enter a valid graduation year."
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+             }
+             if (graduation_year   <= 2008) {
+                var msg = "This graudation year means that you exceeded the exchange program age limit (30 years)."
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+             }
+            if (campus == ""){
+                var msg = "Please choose your University"
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+            }
+            if (faculty == ""){
+                var msg = "Please choose your Faculty"
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+            }
+            if (gender == ""){
+                var msg = "Please choose your Gender"
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+            }
+            if (referral == ""){
+                var msg = "Please choose your Referral"
+                document.getElementById('sign_up_error_msg').innerHTML = msg;
+                document.getElementById('form_msg').style.display = "block";
+                return ;
+            }
+            unique_email(email);
+            
+        }
+        
+        function inject_campuses(data){
+            var campuses = data['data']['allCampuses']['edges'];
+            campuses.forEach(function(element) {
+                var $log = $( "#campus_options" ),
+                str = '<option value="' + element['node'].id + '">' + element['node'].name + '</option>',
+                html = $.parseHTML( str ),
+                nodeNames = [];
+                $log.append( html );
+            });
+        }
+        function inject_faculties(data){
+            var faculties = data['data']['allFaculties']['edges'];
+            faculties.forEach(function(element) {
+                var $log = $( "#faculty_options" ),
+                str = '<option value="' + element['node'].id + '">' + element['node'].name + '</option>',
+                html = $.parseHTML( str ),
+                nodeNames = [];
+                $log.append( html );
+            });
+        }
+        function inject_referrals(data){
+            var referrals = data['data']['allReferrals']['edges'];
+            referrals.forEach(function(element) {
+                var $log = $( "#referral_options" ),
+                str = '<option value="' + element['node'].id + '">' + element['node'].formValue + '</option>',
+                html = $.parseHTML( str ),
+                nodeNames = [];
+                $log.append( html );
+            });
+        }
+        function fetch_referrals(){
+            var query = `query Myquery {
+             allReferrals
+              {
+                edges
+                {
+                  node
+                  {
+                    id
+                    formValue
+                  }
+                }
+              }
+            }`;
+
+            data_ = fetch(endpoint + '/graphql', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              },
+              body: JSON.stringify({
+                query,
+              })
+            })
+              .then(r => r.json())
+              .then(data => inject_referrals(data));
+            //console.log(data_);
+        }
+        function fetch_campuses(){
+            var query = `query Myquery {
+             allCampuses
+              {
+                edges
+                {
+                  node
+                  {
+                    id
+                    name
+                    alignmentId
+                  }
+                }
+              }
+            }`;
+
+            data_ = fetch(endpoint + '/graphql', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              },
+              body: JSON.stringify({
+                query,
+              })
+            })
+              .then(r => r.json())
+              .then(data => inject_campuses(data));
+            //console.log(data_);
+        }
+        function fetch_faculties(){
+            var query = `query Myquery {
+             allFaculties
+              {
+                edges
+                {
+                  node
+                  {
+                    id
+                    name
+                  }
+                }
+              }
+            }`;
+
+            data_ = fetch(endpoint + '/graphql', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              },
+              body: JSON.stringify({
+                query,
+              })
+            })
+              .then(r => r.json())
+              .then(data => inject_faculties(data));
+            //console.log(data_);
+        }
+        function calculate_age(dob) { 
+            var diff_ms = Date.now() - dob.getTime();
+            var age_dt = new Date(diff_ms); 
+
+            return Math.abs(age_dt.getUTCFullYear() - 1970);
+        }
+        function main(){
+
+                fetch_referrals();
+                fetch_faculties();
+                fetch_campuses();
+        }
+
+        $('.ps-trigger-btn').click(() => {
+        var ps_container = $('.ps-container')
+        if(ps_container.css('display') == 'block') {
+        ps_container.css('display','none');
+        } else {
+        ps_container.css('display','block');
+        if($('#ps-category')[0].options.length <= 1) {
+            fetchRequestCategories();
+        }
+        }
+    })
+
+
+
+    function fetchRequestCategories() {
+        var username = "endpointauth";
+        var mutation = "{externalLogin(username:\"" + username + "\"){token}}";
+        
+        var url_auth_raw = "https://alpha.aiesec.org.eg/graphql?query=mutation" + mutation;
+        var url_auth_encoded = encodeURI(url_auth_raw);
+        $.ajax({
+        url: url_auth_encoded,
+        type: 'post',
+        success: function(data){
+            var token_auth = "JWT " + data["data"]["externalLogin"]["token"];
+            var query = "{ allCustomerrequestcategories { edges { node { pk name }}}}";
+            var url_raw = 'https://alpha.aiesec.org.eg/graphql?query=' + query;
+            var url_encoded = encodeURI(url_raw);
+            $.ajax({
+            url: url_encoded,
+            type: 'post',
+            headers: {
+                'Authorization': token_auth
+            },
+            success: function(data){
+                var ps_category_list = data["data"]["allCustomerrequestcategories"]["edges"];
+                for(var i = 0; i < ps_category_list.length; i++) {
+                var new_option = new Option(ps_category_list[i]["node"]["name"], ps_category_list[i]["node"]["pk"]);
+                $(new_option).html(ps_category_list[i]["node"]["name"]);
+                $("#ps-category").append(new_option);
+                }
+            },
+            async: true
+            })
+        },
+        async: true
+        })
+    }
+
+
+
+
+    $('.ps-submit-btn').click(() => {
+        var name = $('#ps-name').val();
+        var email = $('#ps-email').val();
+        var category = $('#ps-category').val();
+        var msg = $('#ps-msg').val();
+        if( name && email && category && msg) {
+        $('.ps-form-error').css('display', 'none');
+        $('.ps-submit-btn').addClass('disabled');
+        submitPlatformSupportRequest(name, email, category, msg);
+        } else {
+        $('.ps-submit-btn').removeClass('disabled');
+        $('.ps-form-error').css('display', 'block');
+        }
+    });
+
+
+
+    function submitPlatformSupportRequest(name, email, category, msg) {
+        $('.ps-submit-btn').removeClass('disabled');
+        $('.ps-submit-btn').attr("disabled", "disabled").on('click');
+
+        var platform_index = 3;
+
+
+        var username = "endpointauth";
+        var mutation = "{externalLogin(username:\"" + username + "\"){token}}";
+        
+        var url_auth_raw = "https://alpha.aiesec.org.eg/graphql?query=mutation" + mutation;
+        var url_auth_encoded = encodeURI(url_auth_raw);
+        $.ajax({
+        url: url_auth_encoded,
+        type: 'post',
+        success: function(data){
+            var token_auth = "JWT " + data["data"]["externalLogin"]["token"];
+            var query = "{ addCustomerRequest ( input: { name: \"" + name + "\" email: \"" + email + "\" msg: \"" + msg + "\" category: " + category + " platform: " + platform_index + " }){ myCustomerrequest { id }}}";
+            var url_raw = 'https://alpha.aiesec.org.eg/graphql?query=mutation' + query;
+            var url_encoded = encodeURI(url_raw);
+            $.ajax({
+            url: url_encoded,
+            type: 'post',
+            headers: {
+                'Authorization': token_auth
+            },
+            success: function(data){
+                var ps_response = data;
+                
+                
+                $('.ps-form-error').css('display', 'none');
+                $('#ps-name').val('');
+                $('#ps-email').val('');
+                $('#ps-category').val('');
+                $('#ps-msg').val('');
+                alert('Your request has been recorded. It would be resolved soon.')
+            },
+            async: true
+            })
+        },
+        async: true
+        })
+    }
+
+
+        
+        window.onload = main;
+    
+    </script>
 </body>
 
 </html>

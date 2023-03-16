@@ -159,19 +159,19 @@
                         <div class="about-three__left">
                             <img src="assets/images/aiesec_member_logo_long_blue-300x93.png" class="ogv-logo" alt="">
                             <div class="ogv-description">
-                                <p>Global Volunteer is a cross-cultural experience for youth (age 18 &#8211;30) who want to gain personal development and leave an impact on the world.</p>
+                                <p>AIESEC member is an informal education for youth, that focus on leadership as a core. We develop young people by delivering a personalized, relevant, and measurable leadership development experience for them.</p>
                             </div>
                             <ul class="member-description-list">
                                 <li>
                                     <div>
                                         <h3>Duration</h3>
-                                        <p>6-8 Weeks</p>
+                                        <p>Minimum 6 months</p>
                                     </div>
                                 </li>
                                 <li>
                                     <div>
                                         <h3>Organization</h3>
-                                        <p>NGO or School</p>
+                                        <p>AIESEC (Our nearest local team)</p>
                                     </div>
                                 </li>
                             </ul>
@@ -428,7 +428,7 @@
                                 </div>
                                 <div class="help__content">
                                     <h2>Sign up below</h2>
-                                    <p class="help__text"> one of our local volunteers will contact you. You will have access to the platform of projects around the world. Keep in mind that you must be between 18 and 30 years old.</p>
+                                    <p class="help__text"> one of our local volunteers will contact you to make screeing phone call and personality assesment.</p>
                                 </div>
                             </div>
                         </div>
@@ -442,8 +442,8 @@
                                     <img src="assets/images/icon/ogv/Icon_GV09.png" alt="">
                                 </div>
                                 <div class="help__content">
-                                    <h2>Apply to the social project</h2>
-                                    <p class="help__text"> that interests you the most, and carry out your interview with the advisor of the destination country, the project can last between 6 to 8 weeks; Once accepted, start packing your bags.</p>
+                                    <h2>Selection process</h2>
+                                    <p class="help__text">you will attend an information session about AIESEC then you will do an interview and a group assesment.</p>
                                 </div>
                             </div>
                         </div>
@@ -457,8 +457,9 @@
                                     <img src="assets/images/icon/ogv/Icon_GV11.png" alt="">
                                 </div>
                                 <div class="help__content">
-                                    <h2>It's time to impact the world</h2>
-                                    <p class="help__text"> learn about cultures and develop leadership with AIESEC.</p>
+                                    <h2>Welcome On Board!
+                                    </h2>
+                                    <p class="help__text">You will attend a conference for the needed education, and become an official AIESEC member </p>
                                 </div>
                             </div>
                         </div>
@@ -475,96 +476,206 @@
                 style="background-image: url(assets/images/shapes/contact-three-shape.png);"></div>
             <div class="container">
                 <div class="contact-page__form-box">
-                    <form action="assets/inc/sendemail.php" class="contact-page__form contact-form-validated"
+                    <form id="submit-to-google-sheet" class="contact-page__form contact-form-validated"
                         novalidate="novalidate">
                         <div class="row">
                             <div class="col-xl-6">
                                 <div class="contact-form__input-box">
-									<input id="first_name_field" type="text" name="name" placeholder="First Name">
+                                    <input id="first_name" type="text" name="First Name"  placeholder="First Name" required>
 								</div>
 							</div>
                             <div class="col-xl-6">
                                 <div class="contact-form__input-box">
-									<input id="last_name_field" type="text" name="name" placeholder="Last Name">
+                                    <input id="last_name" type="text" name="Last Name" placeholder="Last Name" required>
 								</div>
 							</div>
                             <div class="col-xl-6">
                                 <div class="contact-form__input-box">
-									<input id="email_signup_field" type="text" name="name" placeholder="Email">
+                                    <input id="age" type="number" name="Age" placeholder="Age" required> 
 								</div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="contact-form__input-box">
-									<input id="password_signup_field" type="password" name="password" placeholder="Password">
-								</div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="contact-form__input-box">
-									<input id="phone_field" type="text" name="name" placeholder="Phone">
-								</div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="contact-form__input-box">
-									<input id="dob_field" type="text" onfocus="(this.type='date')" name="name" placeholder="Date of Birth" value="Date of Birth">
-								</div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="contact-form__input-box">
-									<select id="gender_options" placeholder="Gender" name="Gender">
+									<select id="gender" placeholder="Gender" name="Gender" required>
                                         <option value="" disabled="" selected="">Gender</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
+
                                     </select>
 								</div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="contact-form__input-box">
-									<input id="graduation_year_field" type="number" name="name" placeholder="Graduation Year">
+									<input id="email" type="email" name="Email" placeholder="Email" required>
 								</div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="contact-form__input-box">
-									<select id="faculty_options" placeholder="Faculty" name="faculty">
+                                    <input id="phone" type="number" name="Phone" placeholder="Phone Number" required>
+								</div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="contact-form__input-box">
+                                    <select id="faculty_option" placeholder="Faculty" name="Faculty" required>
                                         <option value="" disabled="" selected="">Faculty</option>
+                                        <option value="Veterinary" >Veterinary</option>
+                                        <option value="Mass Communication" >Mass Communication</option>
+                                        <option value="Physical Therapy" >Physical Therapy</option>
+                                        <option value="Science" >Science</option>
+                                        <option value="Finance" >Finance</option>
+                                        <option value="Nursing" >Nursing</option>
+                                        <option value="Tourism & hotels" >Tourism & hotels</option>
+                                        <option value="Sales" >Sales</option>
+                                        <option value="Political Science" >Political Science</option>
+                                        <option value="Pharmacy" >Pharmacy</option>
+                                        <option value="Musical Arts" >Musical Arts</option>
+                                        <option value="Medicine" >Medicine</option>
+                                        <option value="Marketing" >Marketing</option>
+                                        <option value="Law" >Law</option>
+                                        <option value="Languages" >Languages</option>
+                                        <option value="Fine Arts" >Fine Arts</option>
+                                        <option value="Engineering" >Engineering</option>
+                                        <option value="Economics" >Economics</option>
+                                        <option value="Dentistry" >Dentistry</option>
+                                        <option value="Commerce" >Commerce</option> 
+                                        <option value="Business" >Business</option> 
+                                        <option value="Applied arts" >Applied arts</option> 
+                                        <option value="Art Education" >Art Education</option> 
+                                        <option value="Arts" >Arts</option> 
+
                                     </select>
 								</div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="contact-form__input-box">
-									<select id="campus_options" placeholder="Campus" name="campus">
+                                    <select id="campus_option" placeholder="Campus" name="Campus" required>
                                         <option value="" disabled="" selected="">Campus</option>
-                                    </select>
+                                        <option value="GIU">GIU</option>
+                                        <option value="AAST Aswan">AAST Aswan</option>
+                                        <option value="AAST in Cairo Univeristy">AAST in Cairo Univeristy</option>
+                                        <option value="Assiut">Assiut</option>
+                                        <option value="Higher Institute of Engineering and Technology in New Damietta">Higher Institute of Engineering and Technology in New Damietta</option>
+                                        <option value="GUC">GUC</option>
+                                        <option value="Mansoura">Mansoura</option>
+                                        <option value="Helwan University">Helwan University</option>
+                                        <option value="Badr University in Cairo">Badr University in Cairo</option>
+                                        <option value="Highter technology Institution Matrooh">Highter technology Institution Matrooh</option>
+                                        <option value="Suez Canal University">Suez Canal University</option>
+                                        <option value="Akhbar El Yom University">Akhbar El Yom University</option>
+                                        <option value="Nile University">Nile University</option>
+                                        <option value="Sadat Academy for Management Sciences in Maadi">Sadat Academy for Management Sciences in Maadi</option>
+                                        <option value="6th of October University">6th of October University</option>
+                                        <option value="Zagazig">Zagazig</option>
+                                        <option value="Higher Technological Institute - (HTI) 10th of Rammadan">Higher Technological Institute - (HTI) 10th of Rammadan</option>
+                                        <option value="New Cairo Academy">New Cairo Academy</option>
+                                        <option value="Heliopolis University for Sustainable Development">Heliopolis University for Sustainable Development</option>
+                                        <option value="Delta University">Delta University</option>
+                                        <option value="Horus University">Horus University</option>
+                                        <option value="Ain Shams University">Ain Shams University</option>
+                                        <option value="El Obour Academy For Engineering And Technology">El Obour Academy For Engineering And Technology</option>
+                                        <option value="ESLSCA">ESLSCA</option>
+                                        <option value="MIU University">MIU University</option>
+                                        <option value="Menofia">Menofia</option>
+                                        <option value="Benha University">Benha University</option>
+                                        <option value="Suez University">Suez University</option>
+                                        <option value="Zewail Univeristy">Zewail Univeristy</option>
+                                        <option value="Port Said University">Port Said University</option>
+                                        <option value="Coventry University">Coventry University</option>
+                                        <option value="MSA Univeristy">MSA Univeristy</option>
+                                        <option value="University of Canada">University of Canada</option>
+                                        <option value="Higher Technological Institute 6th October">Higher Technological Institute 6th October</option>
+                                        <option value="MTI">MTI</option>
+                                        <option value="Sherouk Academy">Sherouk Academy</option>
+                                        <option value="BUE University">BUE University</option>
+                                        <option value="Azhar University">Azhar University</option>
+                                        <option value="Tanta">Tanta</option>
+                                        <option value="Cairo Univeristy">Cairo Univeristy</option>
+                                        <option value="Alamein University">Alamein University</option>
+                                        <option value="MUST Univeristy">MUST Univeristy</option>
+                                        <option value="South Valley University">South Valley University</option>
+                                        <option value="Arish University">Arish University</option>
+                                        <option value="Aswan">Aswan</option>
+                                        <option value="El-Sherif Institute in Kafr El-Sheikh">El-Sherif Institute in Kafr El-Sheikh</option>
+                                        <option value="Kafr El-Sheikh University">Kafr El-Sheikh University</option>
+                                        <option value="CIC October">CIC October</option>
+                                        <option value="University of Sadat City">University of Sadat City</option>
+                                        <option value="Gaber Awad Institute">Gaber Awad Institute</option>
+                                        <option value="El Sallab Academy">El Sallab Academy</option>
+                                        <option value="Sadat Academy for Management Sciences in Port-Said">Sadat Academy for Management Sciences in Port-Said</option>
+                                        <option value="Egyptian Russian University">Egyptian Russian University</option>
+                                        <option value="Egyptian Aviation Academy">Egyptian Aviation Academy</option>
+                                        <option value="Ahram Canadian University">Ahram Canadian University</option>
+                                        <option value="Nahda University">Nahda University</option>
+                                        <option value="AUC">AUC</option>
+                                        <option value="Fayoum">Fayoum</option>
+                                        <option value="AAST Port Said">AAST Port Said</option>
+                                        <option value="AAST in Alexandria">AAST in Alexandria</option>
+                                        <option value="Delta Academy">Delta Academy</option>
+                                        <option value="Pharos University Alexandria">Pharos University Alexandria</option>
+                                        <option value="M.E.T Academy">M.E.T Academy</option>
+                                        <option value="Mansoura College Academy">Mansoura College Academy</option>
+                                        <option value="Beni Suef">Beni Suef</option>
+                                        <option value="Sinai University">Sinai University</option>
+                                        <option value="CIC New Cairo">CIC New Cairo</option>
+                                        <option value="Sohag">Sohag</option>
+                                        <option value="Damietta">Damietta</option>
+                                        <option value="FUE">FUE</option>
+                                        <option value="Nile Academy">Nile Academy</option>
+                                        <option value="Koleyet el Banat University">Koleyet el Banat University</option>
+                                        <option value="Chinese University">Chinese University</option>
+                                        <option value="Other Universities in Alexandria">Other Universities in Alexandria</option>
+                                        <option value="UFE">UFE</option>
+                                        <option value="Minya">Minya</option>
+                                        <option value="Alexandria University">Alexandria University</option>
+                                        <option value="New Giza University">New Giza University</option>
+                                        <option value="IAEMS University">IAEMS University</option>
+                                        <option value="AOU University">AOU University</option>
+                                        <option value="Galala University">Galala University</option>
+                                        
+                                      </select>
 								</div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="contact-form__input-box">
-									<select id="referral_options" placeholder="Referral" name="referral">
-                                        <option value="" disabled="" selected="">Referral</option>
-                                    </select>
+                                    <input id="graduation_year" type="number" name="Graduation Year" placeholder="Graduation Year ex.(2022)" required>
 								</div>
                             </div>
                             <div class="col-xl-6">
                                 <div class="contact-form__input-box">
-									<select id="apply_reasons_options" placeholder="Campus" name="reason">
-                                        <option value="" disabled="" selected="">Top reason for you to apply</option>
-                                        <option value="Want to Volunteer/Intern abroad">Want to Volunteer/Intern abroad</option>
-                                        <option value="Want to develop my leadership">Want to develop my leadership</option>
-                                        <option value="Want to meet new people and cultures">Want to meet new people and cultures</option>
+                                    <input id="city" type="text" name="City" placeholder="City" required>
+								</div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="contact-form__input-box">
+                                    <input id="aiesecreason" type="text" name="Why do you want to join AIESEC?" minlength="50" placeholder="Why do you want to join AIESEC?" required>
+								</div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="contact-form__input-box">
+                                    <input id="expectations" type="text" name="What do you expect to develop in the organization?" minlength="50" placeholder="What do you expect to develop in the organization?" required> 
+								</div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="contact-form__input-box">
+									<select id="referral_option" placeholder="" name="Referral" required>
+                                        <option value="" disabled="" selected="">How did you know about AIESEC?</option>
+                                        <option value="Friend">Friend</option>
+                                        <option value="I’m an AIESECer referring this Person">I’m an AIESECer referring this Person</option>
                                         <option value="Other">Other</option>
-                                    </select>
-								</div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="contact-form__input-box">
-                                    <select id="prevent_reasons_options" placeholder="top reason that might prevent you from going on exchange" name="referral">
-                                        <option value="" disabled="" selected="">Top reason that might prevent you from going on exchange</option>
-                                        <option value="Parent Issues">Parent Issues</option>
-                                        <option value="Too Expensive">Too Expensive</option>
-                                        <option value="Can not See any benefit from going on exchange">Can not See any benefit from going on exchange</option>
-                                        <option value="I am not certain about AIESEC">I am not certain about AIESEC</option>
-                                        <option value="I didnt find a relevant opportunity">I didnt find a relevant opportunity</option>
-                                        <!-- <option value="I don't have enough experience">I don't have enough experience</option> -->
-                                        <option value="Can't travel beacause of COVID-19">Can't travel beacause of COVID-19</option>
+                                        <option value="Media (magazine, TV, newspaper or radio)">Media (magazine, TV, newspaper or radio)</option>
+                                        <option value="VK">VK</option>
+                                        <option value="Telegram">Telegram</option>
+                                        <option value="Event">Event</option>
+                                        <option value="Search engine">Search engine</option>
+                                        <option value="Other social media channel">Other social media channel</option>
+                                        <option value="LinkedIn">LinkedIn</option>
+                                        <option value="Instagram">Instagram</option>
+                                        <option value="Twitter">Twitter</option>
+                                        <option value="WeChat">WeChat</option>
+                                        <option value="Facebook">Facebook</option>
+                                        <option value="Classroom presentation">Classroom presentation</option>
+                                        <option value="Information booth on campus">Information booth on campus</option>
+                                        
                                     </select>
                                 </div>
                             </div>
@@ -758,6 +869,18 @@
 
     <!-- template js -->
     <script src="assets/js/oxpins.js"></script>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxeIsUtpCHsFI0LEoHV78dYGrPRB_JaEop1GcDUK_xWRe8hCt3udTFHBW7TuXWxISPa/exec'
+        const form = document.forms['submit-to-google-sheet']
+      
+        form.addEventListener('submit', e => {
+          e.preventDefault()
+          fetch(scriptURL, { mode:"no-cors", method: 'POST', body: new FormData(form)})
+            .then(response => alert('Your response has been recorded! Stay tuned!'))
+            .catch(error => alert(`Error! ${error.message}. Please resubmit again!`)).then(form.reset())
+
+        })
+      </script>
 </body>
 
 </html>
