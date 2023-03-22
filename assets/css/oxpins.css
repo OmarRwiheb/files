@@ -1,22 +1,4 @@
-/*--------------------------------------------------------------
->>> TABLE OF CONTENTS:
-----------------------------------------------------------------
-# Utility
-# Cards
-# Common
-# Form
-# Navigations
-# Animations
-# Mobile Nav
-# Search Popup
-# Page Header
-# Google Map
-# Client Carousel
---------------------------------------------------------------*/
 
-/*--------------------------------------------------------------
-# Common
---------------------------------------------------------------*/
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
 :root {
   --temp-font: Lato;
@@ -1497,7 +1479,7 @@ ul {
 .mobile-nav__content .main-menu__list>li>ul>li>ul>li>a>button {
   width: 30px;
   height: 30px;
-  background-color: var(--temp-primary);
+  background-color: var(--aiesec-blue);
   border: none;
   outline: none;
   color: #fff;
@@ -1525,7 +1507,7 @@ ul {
 .mobile-nav__content .main-menu__list>li>ul>li>ul>li>a>button.expanded {
   -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
-  background-color: #fff;
+  /* background-color: #fff; */
   color: var(--temp-primary);
 }
 
@@ -1630,7 +1612,7 @@ ul {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: var(--temp-primary);
+  background-color: var(--aiesec-blue);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2939,7 +2921,7 @@ ul {
 .brand-one {
   position: relative;
   display: block;
-  border-top: 1px solid var(--temp-bdr-color);
+  /* border-top: 1px solid var(--temp-bdr-color); */
   padding: 60px 0 60px;
 }
 
@@ -2958,7 +2940,7 @@ ul {
 .brand-one .swiper-slide img {
   -webkit-transition: 500ms;
   transition: 500ms;
-  opacity: 0.3;
+  /* opacity: 0.3; */
   max-width: 100%;
 }
 
@@ -3866,7 +3848,7 @@ ul {
 .site-footer__top {
   position: relative;
   display: block;
-  padding: 100px 0 98px;
+  padding: 50px 0 50px;
 }
 
 .footer-widget__about {
@@ -4086,6 +4068,13 @@ ul {
   -ms-flex-align: center;
   align-items: center;
   margin-top: 22px;
+  justify-content:flex-start;
+  margin-left: 132px;
+    margin-top: -56px;
+}
+
+.ftr{
+    justify-content: space-around;
 }
 
 .site-footer__social a {
@@ -4156,7 +4145,7 @@ ul {
 .site-footer__bottom {
   position: relative;
   display: block;
-  background-color: #52565e;
+  background-color: white;
 }
 
 .site-footer__bottom-inner {
@@ -4184,7 +4173,7 @@ ul {
 }
 
 .omar{
-    color: var(--temp-primary)
+    color: var(--aiesec-blue)
 }
 
 /*--------------------------------------------------------------
@@ -6425,7 +6414,7 @@ ul {
 
 .testimonial-three__client-sub-title {
   font-size: 24px;
-  color: var(--aiesec-blue);
+  color: white;
   font-weight: 700;
   font-family: var(--temp-font-three);
   line-height: 24px;
@@ -9587,7 +9576,7 @@ ul {
 .ogv-videos{
     border-radius: var(--temp-bdr-radius);
     width: 80%;
-    height: 250px;
+    height: 390px;
 }
 .ogv-analysis__h2{
     font-weight:800;
@@ -9821,6 +9810,61 @@ ul {
   align-items: center;
   padding: 0;
 }
+
+.container-elementor{
+    height: 600px;
+    background-image: linear-gradient(140deg, #f85a40 10%, #f85a40 100%), url("http://envieandivy.com/img/Lighthouse.jpg");
+    background-size: cover;
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container-elementor-videos{
+    vertical-align: middle;
+    width: 100%;
+}
+.elementor-svg {
+    position: absolute;
+    width: calc(100% + 2px);
+    height: 50px;
+  }
+  
+  .elementor-svg path {
+    fill: #fff;
+  }
+  .bottomSVG {
+    bottom: -1px;
+  }
+  
+  .bottomSVG-rotateX {
+    transform: rotateX(180deg);
+  }
+.topSVG {
+    top: -1px;
+  }
+  
+  .topSVG-rotateX {
+    transform: rotateX(180deg);
+  }
+  
+  .bottomSVG-tiltDownRight {
+    transform: rotate(180deg);
+  }
+  
+  .bottomSVG-tiltDownLeft {
+    transform: rotateX(180deg);
+  }
+  
+  .topSVG-tiltDownRight {
+    transform: rotate(0deg);
+  }
+  
+  .topSVG-tiltDownLeft {
+    transform: rotateY(180deg);
+  }
+  
 
 /*--------------------------------------------------------------
 # Contact Three
